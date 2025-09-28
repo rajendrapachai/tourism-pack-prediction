@@ -45,7 +45,7 @@ jobs:
 
     - name: 6. Run Model Development & Experimentation (dev.py)
       run: |
-        python tourism_package/dev.py
+        python tourism_package/model_building/dev.py
 
     - name: 7. Commit and Push MLflow/Artifacts (Optional but good for tracking)
       uses: stefanzweifel/git-auto-commit-action@v5
