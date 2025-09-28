@@ -7,14 +7,12 @@ on:
     paths:
       - 'tourism_package/**'
       - 'tourism.csv'
-      - '.github/workflows/pipeline.yml' # Trigger on changes to the workflow itself
-  workflow_dispatch: # Allows manual trigger
+      - '.github/workflows/pipeline.yml'
 
 jobs:
   run_mlops_pipeline:
     runs-on: ubuntu-latest
     
-    # Define environment variables (HF_TOKEN is set as a secret)
     env:
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
@@ -34,6 +32,7 @@ jobs:
 
     - name: 4. Create artifacts directory
       run: |
+        # Ensure the directory structure matches where you placed the files
         mkdir -p tourism_package/artifacts
         mkdir -p tourism_package/hosting
         mkdir -p tourism_package/deployment
@@ -41,11 +40,11 @@ jobs:
     - name: 5. Run Data Preparation (prep.py)
       run: |
         python tourism_package/prep.py
-      # Continues on failure is set to false by default, so a failure here stops the pipeline.
 
     - name: 6. Run Model Development & Experimentation (dev.py)
       run: |
-        python tourism_package/model_building/dev.py
+        # CORRECTED: Assuming dev.py is directly inside tourism_package/
+        python tourism_package/dev.py 
 
     - name: 7. Commit and Push MLflow/Artifacts (Optional but good for tracking)
       uses: stefanzweifel/git-auto-commit-action@v5
@@ -54,10 +53,9 @@ jobs:
         file_pattern: 'mlruns/** artifacts/**'
         branch: main
         
-    # --- Deployment Phase (Only if previous steps succeeded) ---
     - name: 8. Copy Deployment Files for Hosting
       run: |
-        # Copy the Dockerfile and requirements.txt (which are writefiled locally)
+        # Note: These lines look redundant but serve as a good check in a pipeline
         cp tourism_package/deployment/Dockerfile tourism_package/deployment/Dockerfile
         cp tourism_package/deployment/requirements.txt tourism_package/deployment/requirements.txt
         cp tourism_package/deployment/app.py tourism_package/deployment/app.py
