@@ -1,0 +1,14 @@
+artifact_uri: /home/runner/work/tourism-pack-prediction/tourism-pack-prediction/mlruns/166590838122075874/567222a19864479da53811d127b4fec5/artifacts
+end_time: 1759075699135
+entry_point_name: ''
+experiment_id: '166590838122075874'
+lifecycle_stage: active
+run_id: 567222a19864479da53811d127b4fec5
+run_name: placid-hog-610
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759075689093
+status: 3
+tags: []
+user_id: runner

@@ -1,0 +1,10 @@
+artifact_location: /home/runner/work/tourism-pack-prediction/tourism-pack-prediction/mlruns/166590838122075874/models/m-507e0209c99b4d19b2260033e604b6e5/artifacts
+creation_timestamp: 1759075697132
+experiment_id: '166590838122075874'
+last_updated_timestamp: 1759075699112
+model_id: m-507e0209c99b4d19b2260033e604b6e5
+model_type: null
+name: model
+source_run_id: 567222a19864479da53811d127b4fec5
+status: 2
+status_message: null
