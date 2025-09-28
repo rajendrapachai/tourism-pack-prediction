@@ -6,8 +6,8 @@ on:
       - main
     paths:
       - 'tourism_package/**'
-      - 'tourism.csv'
       - '.github/workflows/pipeline.yml'
+  workflow_dispatch:
 
 jobs:
   run_mlops_pipeline:
@@ -32,35 +32,34 @@ jobs:
 
     - name: 4. Create artifacts directory
       run: |
-        # Ensure the directory structure matches where you placed the files
-        mkdir -p tourism_package/artifacts
-        mkdir -p tourism_package/hosting
-        mkdir -p tourism_package/deployment
-
-    - name: 5. Run Data Preparation (prep.py)
+        # Create artifacts folder adjacent to the scripts, if needed, or just at the root
+        mkdir -p tourism_package/model_building/artifacts
+        
+    # Assuming 'data_register.py' handles the initial data upload (Step 1 of Rubric)
+    # If data registration is inside prep.py, you can comment this out. 
+    # Since you listed it, I'll include it for a potential separate script.
+    - name: 5. Run Data Registration (data_register.py)
       run: |
-        python tourism_package/prep.py
-
-    - name: 6. Run Model Development & Experimentation (dev.py)
+        python tourism_package/model_building/data_register.py
+        
+    - name: 6. Run Data Preparation (prep.py)
       run: |
-        # CORRECTED: Assuming dev.py is directly inside tourism_package/
-        python tourism_package/dev.py 
+        # CORRECTED PATH based on your new structure
+        python tourism_package/model_building/prep.py
 
-    - name: 7. Commit and Push MLflow/Artifacts (Optional but good for tracking)
+    - name: 7. Run Model Development & Experimentation (dev_experiment.py)
+      run: |
+        # CORRECTED PATH and filename
+        python tourism_package/model_building/dev_experiment.py 
+
+    - name: 8. Commit and Push MLflow/Artifacts (Optional but good for tracking)
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "CI/CD: Push MLflow logs and artifacts after dev.py run"
+        commit_message: "CI/CD: Push MLflow logs and artifacts"
         file_pattern: 'mlruns/** artifacts/**'
         branch: main
         
-    - name: 8. Copy Deployment Files for Hosting
-      run: |
-        # Note: These lines look redundant but serve as a good check in a pipeline
-        cp tourism_package/deployment/Dockerfile tourism_package/deployment/Dockerfile
-        cp tourism_package/deployment/requirements.txt tourism_package/deployment/requirements.txt
-        cp tourism_package/deployment/app.py tourism_package/deployment/app.py
-        cp tourism_package/hosting/hosting.py tourism_package/hosting/hosting.py
-
     - name: 9. Deploy to Hugging Face Space (hosting.py)
       run: |
+        # Path is tourism_package/hosting/hosting.py
         python tourism_package/hosting/hosting.py
