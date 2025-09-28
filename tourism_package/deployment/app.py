@@ -157,7 +157,7 @@ if model and preprocessor:
                     background-color: #e6ffe6;
                     color: #00c000;
                 '>
-                    <p class='big-font'>Prediction: Customer **WILL** likely purchase the Wellness Tourism Package! 🎉</p>
+                    <p class='big-font'>Prediction: Customer **WILL** likely purchase the Wellness Tourism Packages! 🎉</p>
                 </div>
                 """, unsafe_allow_html=True)
                 st.balloons()
