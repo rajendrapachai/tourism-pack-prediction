@@ -13,6 +13,11 @@ jobs:
   run_mlops_pipeline:
     runs-on: ubuntu-latest
     
+    # --- CRITICAL FIX START: Grant Write Permission for Git Operations ---
+    permissions:
+      contents: write
+    # -------------------------------- CRITICAL FIX END -------------------
+
     env:
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
